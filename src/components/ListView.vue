@@ -1,0 +1,53 @@
+<template>
+    <div class="list-view">
+        <div v-if="hasMemo">
+            <list-item
+                v-for="memo in filteredMemos"
+                :memo="memo"
+                @remove="remove"
+            >
+            </list-item>
+        </div>
+        <div v-else>
+            nothing to display.
+        </div>
+    </div>
+</template>
+
+<script>
+    import ListItem from './ListItem'
+    export default{
+        props: {
+            memos: Array,
+            count: Number,
+            sort: String
+        },
+        computed: {
+            hasMemo() {
+                return this.memos && this.memos.length !== 0
+            },
+            // filteredMemos()の処理を追加
+            filteredMemos() {
+                let memos = this.memos.concat()
+                if ( this.sort ) {
+                    switch(this.sort) {
+                        case 'latest':
+                            memos.reverse()
+                    }
+                }
+                if (this.count) {
+                    memos = memos.splice(0,this.count) // 指定件数以上は削除している
+                }
+                return memos
+            }
+        },
+        methods: {
+            remove( id ) {
+                this.$emit('remove',id)
+            }
+        },
+        components: {
+            'list-item': ListItem
+        }
+    }
+</script>
