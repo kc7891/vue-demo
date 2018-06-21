@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav-link></nav-link>
-    <router-view  class="contents" :memos="memos" @add="add" @remove="remove"></router-view>
+    <router-view  class="contents" :memos="memos" @add="add" @remove="remove" :count="3" @update="update"></router-view>
   </div>
 </template>
 <script>
@@ -14,25 +14,25 @@
           {
             id: 1,
             text: 'test',
-            date: '16-10-28',
+            date: '2016-10-28',
             tags: ['tag1','tag2']
           },
           {
             id: 2,
             text: 'test2',
-            date: '16-11-28',
+            date: '2016-11-28',
             tags: ['tag2','tag3']
           },
           {
             id: 3,
             text: 'test2',
-            date: '16-10-29',
+            date: '2016-10-29',
             tags: ['tag1','tag2']
           },
           {
             id: 4,
             text: 'test3',
-            date: '16-11-30',
+            date: '2016-11-30',
             tags: ['tag2','tag3']
           }
         ]
@@ -55,6 +55,13 @@
           return memo.id === id
         })
         this.memos.splice(index, 1)
+      },
+      update(data) {
+        const id = parseInt(data.id, 10)
+        const index = this.memos.findIndex((memo) => {
+          return memo.id === id
+        })
+        this.memos.splice(index, 1, data)
       }
     },
     components: {
