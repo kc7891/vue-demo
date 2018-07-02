@@ -87,4 +87,7 @@
       box-sizing: border-box;
     }
   }
+  .editor-view > div input.label {
+    border: 0px;
+  }
 </style>

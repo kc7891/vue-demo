@@ -2,7 +2,7 @@
     <div class="editor-view">
         <div v-if="memo">
             <label>id:</label>
-            <input v-model="input.id" disabled>
+            <input v-model="input.id" class="label" disabled>
         </div>
         <div>
             <label>Content:</label>
