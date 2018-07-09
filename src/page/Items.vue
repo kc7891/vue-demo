@@ -1,7 +1,7 @@
 <template>
     <div class="layout-items">
         <list-view class="layout-items-left" 
-            :memos="memos" 
+            :memos="sharedState.memos" 
             @remove="remove"
             @select="select">
         </list-view>
@@ -16,15 +16,18 @@
 
 <script>
     import ListView from '../components/ListView'
+    import store from  '../store'
     export default {
-        props: {
-            memos : Array
+        data() {
+            return {
+                sharedState: store.state
+            }
         },
         computed: {
             selectedMemo() {
-                if ( this.$route.params.id !== undefined ) {
-                    const id = parseInt( this.$route.params.id, 10)
-                    const memo = this.memos.find((memo) => {
+                const id = this.$route.params.id
+                if ( id !== undefined ) {
+                    const memo = this.sharedState.memos.find((memo) => {
                         return memo.id === id
                     })
                     return memo
@@ -33,13 +36,13 @@
         },
         methods: {
             remove(id) {
-                this.$emit('remove',id)
+                store.actions.removeMemo(id)
             },
             select(id) {
                 this.$router.push({name: 'edit', params: {id}})
             },
             update(data) {
-                this.$emit('update', data)
+                store.actions.updateMemo(data)
                 this.$router.push({name: 'items' })
             },
             cancel() {
